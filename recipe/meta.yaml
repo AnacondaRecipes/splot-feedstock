@@ -12,12 +12,15 @@ source:
 build:
   noarch: python
   number: 0
+  skip: true  # [py<35]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   host:
-    - python >=3
+    - python
     - pip
+    # - setuptools
+    # - wheels
   run:
     - python >=3.5
     - numpy
@@ -30,6 +33,7 @@ requirements:
     - spreg
     - giddy
     - ipywidgets
+    - descartes
 
 test:
   imports:
@@ -38,6 +42,11 @@ test:
     - splot.giddy
     - splot.libpysal
     - splot.mapping
+  requires:
+    - pip
+    - python <3.10
+  commands:
+    - pip check
 
 about:
   home: http://pysal.org
