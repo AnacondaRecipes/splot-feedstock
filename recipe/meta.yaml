@@ -19,7 +19,7 @@ requirements:
   host:
     - python
     - pip
-    # - setuptools
+    - setuptools
     # - wheels
   run:
     - python >=3.5
@@ -34,6 +34,7 @@ requirements:
     - giddy
     - ipywidgets
     - descartes
+    - six  # added for testing
 
 test:
   imports:
