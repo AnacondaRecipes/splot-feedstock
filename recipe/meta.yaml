@@ -12,7 +12,6 @@ source:
 build:
   noarch: python
   number: 0
-  skip: true  # [py<36]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -45,12 +44,11 @@ test:
     - splot.mapping
   requires:
     - pip
-    - python <3.10
   commands:
     - pip check
 
 about:
-  home: http://pysal.org
+  home: https://pysal.org
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
