@@ -1,3 +1,4 @@
 channels:
   - https://staging.continuum.io/prefect/fs/geopandas-feedstock/pr11/5723099
-  - https://staging.continuum.io/prefect/fs/esda-feedstock/pr3/7bdd97e
+  - https://staging.continuum.io/prefect/fs/esda-feedstock/pr3/72affa5
+  - https://staging.continuum.io/prefect/fs/spreg-feedstock/pr2/5b6a3b7

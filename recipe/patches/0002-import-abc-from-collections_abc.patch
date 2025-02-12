@@ -1,0 +1,32 @@
+From 10fbce92917f79e8d62ccd2e48601c4ef2c8765a Mon Sep 17 00:00:00 2001
+From: Karthikeyan Singaravelan <tir.karthi@gmail.com>
+Date: Sat, 26 Mar 2022 21:08:21 +0530
+Subject: [PATCH] Import ABC from collections.abc for Python 3.10
+ compatibility. (#150)
+
+---
+ splot/_viz_value_by_alpha_mpl.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/splot/_viz_value_by_alpha_mpl.py b/splot/_viz_value_by_alpha_mpl.py
+index 63fa64be..e0640028 100644
+--- a/splot/_viz_value_by_alpha_mpl.py
++++ b/splot/_viz_value_by_alpha_mpl.py
+@@ -1,7 +1,7 @@
+ import matplotlib.pyplot as plt
+ from matplotlib import colors
+ from matplotlib import patches
+-import collections
++import collections.abc
+ import matplotlib.cm as cm
+ import mapclassify as classify
+ import numpy as np
+@@ -89,7 +89,7 @@ def value_by_alpha_cmap(x, y, cmap='GnBu', revert_alpha=False, divergent=False):
+     # option for cmap or colorlist input
+     if isinstance(cmap, str):
+         cmap = cm.get_cmap(cmap)
+-    elif isinstance(cmap, collections.Sequence):
++    elif isinstance(cmap, collections.abc.Sequence):
+         cmap = colors.LinearSegmentedColormap.from_list('newmap', cmap)
+ 
+     rgba = cmap((x - x.min()) / (x.max() - x.min()))

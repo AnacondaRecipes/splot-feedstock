@@ -8,27 +8,45 @@ package:
 source:
   url: https://pypi.io/packages/source/s/splot/splot-{{ version }}.tar.gz
   sha256: 7be9557cd3c6c0374e07c2a149e1330318d22d6ecb420f70f1a0dbad9b3187fd
+  patches:
+    - patches/0001-fix-bokeh-axis-visible-to-false.patch
+    - patches/0002-import-abc-from-collections_abc.patch  # [py>39]
+    - patches/0003-either-c-or-color-for-dynamic_lisa_vectors.patch
 
 build:
-  noarch: python
   number: 1
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  # skip s390x: no libgdal
+  skip: True  # [s390x]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
+  build:
+    - patch       # [not win]
+    - m2-patch    # [win]
   host:
-    - python >=3
+    - python
     - pip
+    - setuptools
+    - wheel
   run:
-    - python >=3.5
+    - python
     - numpy
     - geopandas >=0.4.0
-    - matplotlib-base
+    # matplotlib : register_cmap and get_cmap function were deprecated
+    # in Matplotlib 3.7 and removed two minor releases later (fails with
+    # 3.9.2, succeeds with 3.8.4)
+    - matplotlib-base <3.9.0a0
     - seaborn
+    # libpysal: for py39 the version 4.5.1 will be used
+    #           while >=4.10 is available only for py>39
     - libpysal
+    - libpysal >=4.10  # [py>39]
     - mapclassify
     - esda
     - spreg
     - giddy
+    - descartes
+    # ipywidgets used in the source code
     - ipywidgets
 
 test:
@@ -38,21 +56,34 @@ test:
     - splot.giddy
     - splot.libpysal
     - splot.mapping
+  requires:
+    - pip
+    - pytest
+    - nose
+    # bokeh: AttributeError: unexpected attribute 'plot_width'
+    - bokeh <3.0.0a0
+  source_files:
+    - splot/tests
+  commands:
+    - pip check
+    # check that pip gets the correct version 
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    # skip test_moran_scatterplot, because Guerry.shp is not a built in libpysal example
+    - pytest -vv -k "not (test_moran_ or test_plot_moran)"
 
 about:
-  home: http://pysal.org
+  home: https://pysal.org
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
   summary: Lightweight plotting and mapping to facilitate spatial analysis with PySAL
-
   description: |
     splot connects spatial analysis done in PySAL to different popular visualization
     toolkits like matplotlib. The splot package allows you to create both static plots
     ready for publication and interactive visualizations for quick iteration and
     spatial data exploration. The primary goal of splot is to enable you to visualize
     popular PySAL objects and gives you different views on your spatial analysis workflow.
-  doc_url: https://splot.readthedocs.io/en/latest/
+  doc_url: https://splot.readthedocs.io
   dev_url: https://github.com/pysal/splot
 
 extra:
