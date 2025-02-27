@@ -32,6 +32,7 @@ requirements:
     - python
     - numpy
     - geopandas >=0.4.0
+    - geopandas <1.0.0a0  # [py<310]
     # matplotlib : register_cmap and get_cmap function were deprecated
     # in Matplotlib 3.7 and removed two minor releases later (fails with
     # 3.9.2, succeeds with 3.8.4)
@@ -48,6 +49,8 @@ requirements:
     - descartes
     # ipywidgets used in the source code
     - ipywidgets
+  run_constrained:
+    - fiona <1.9  # [py<310]
 
 test:
   imports:
