@@ -76,13 +76,11 @@ test:
     # bokeh: AttributeError: unexpected attribute 'plot_width'
     - bokeh <3.0.0a0  # [py<312]
     - bokeh           # [py>=312]
-  source_files:
-    - splot/tests
   commands:
     - pip check
     # check that pip gets the correct version 
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -vv -k "not ({{ tests_to_skip }})"
+    - pytest -vv --pyargs splot -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://pysal.org
