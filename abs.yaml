@@ -1,6 +1,6 @@
 channels:
-  - https://staging.continuum.io/prefect/fs/libpysal-feedstock/pr6/f1cefa4
-  - https://staging.continuum.io/prefect/fs/geopandas-feedstock/pr11/5723099
-  - https://staging.continuum.io/prefect/fs/esda-feedstock/pr3/e8dafb8
-  - https://staging.continuum.io/prefect/fs/spreg-feedstock/pr2/be2e3f9
-  - https://staging.continuum.io/prefect/fs/pyogrio-feedstock/pr1/2f9ed2a
+  - https://staging.continuum.io/prefect/fs/libpysal-feedstock/pr6/6c51275
+  - https://staging.continuum.io/prefect/fs/geopandas-feedstock/pr11/0b5fc8c
+  - https://staging.continuum.io/prefect/fs/esda-feedstock/pr3/e1c714c
+  - https://staging.continuum.io/prefect/fs/spreg-feedstock/pr2/f50eb98
+  - https://staging.continuum.io/prefect/fs/pyogrio-feedstock/pr1/a8c62fe
