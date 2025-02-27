@@ -52,6 +52,15 @@ requirements:
   run_constrained:
     - fiona <1.9  # [py<310]
 
+{% set tests_to_skip = "" %}
+# skip test_moran_scatterplot, because Guerry.shp is not a built in libpysal example
+{% set tests_to_skip = tests_to_skip + "test_moran_ or test_plot_moran" %}
+# skip tests for py39 because libpysal is available on an older version
+# and tests fail with TypeError: 'MultiPolygon' object is not iterable 
+{% set tests_to_skip = tests_to_skip + " or test_dynamic_lisa" %}  # [py<310]
+{% set tests_to_skip = tests_to_skip + " or test_plot_local_autocorrelation" %}  # [py<310]
+{% set tests_to_skip = tests_to_skip + " or test_plot_spatial_weights" %}  # [py<310]
+
 test:
   imports:
     - splot
@@ -64,15 +73,15 @@ test:
     - pytest
     - nose
     # bokeh: AttributeError: unexpected attribute 'plot_width'
-    - bokeh <3.0.0a0
+    - bokeh <3.0.0a0  # [py<312]
+    - bokeh           # [py>=312]
   source_files:
     - splot/tests
   commands:
     - pip check
     # check that pip gets the correct version 
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    # skip test_moran_scatterplot, because Guerry.shp is not a built in libpysal example
-    - pytest -vv -k "not (test_moran_ or test_plot_moran)"
+    - pytest -vv -k "not ({{ tests_to_skip }})"
 
 about:
   home: https://pysal.org
