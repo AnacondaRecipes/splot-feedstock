@@ -44,7 +44,7 @@ requirements:
     - libpysal
     - libpysal >=4.10  # [py>39]
     - mapclassify
-    - esda
+    - esda >=2.5.1
     - spreg
     - giddy
     - descartes
