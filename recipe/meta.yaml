@@ -15,9 +15,8 @@ source:
 
 build:
   number: 0
-  # skip s390x: no libgdal
   # skip py>311: no giddy
-  skip: True  # [s390x or py>311]
+  skip: True  # [py>311]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
