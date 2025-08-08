@@ -11,7 +11,7 @@ source:
 
 build:
   number: 0
-  skip: True  # [py<38]
+  skip: True  # [py<38 or py>311]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -37,20 +37,20 @@ requirements:
   run_constrained:
     - fiona <1.9  # [py<310]
     # current version of geopandas package doesn't support shapely>=2
-    - shapely <2
+    - shapely <2  # [py<310]
 
 {% set tests_to_skip = "" %}
 
 # NameError: name 'np' is not defined
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_scatterplot" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_global_scatterplot" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_bv_scatterplot" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran_bv" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_scatterplot" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_local_autocorrelation" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_bv_scatterplot" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_facet" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_scatterplot" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_global_scatterplot" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_bv_scatterplot" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran_bv" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_scatterplot" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_local_autocorrelation" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_bv_scatterplot" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_facet" %}
 
 test:
   imports:
