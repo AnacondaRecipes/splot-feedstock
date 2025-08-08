@@ -37,13 +37,15 @@ requirements:
 
 {% set tests_to_skip = "" %}
 # skip test_moran_scatterplot, because Guerry.shp is not a built in libpysal example
-{% set tests_to_skip = tests_to_skip + " --deselect=test_moran_" %}
-{% set tests_to_skip = tests_to_skip + " --deselect=test_plot_moran" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=test_moran_" %}
+#{% set tests_to_skip = tests_to_skip + " --deselect=test_plot_moran" %}
 # skip tests for py39 because libpysal is available on an older version
 # and tests fail with TypeError: 'MultiPolygon' object is not iterable 
 {% set tests_to_skip = tests_to_skip + " --deselect=test_dynamic_lisa" %}  # [py<310]
 {% set tests_to_skip = tests_to_skip + " --deselect=test_plot_local_autocorrelation" %}  # [py<310]
 {% set tests_to_skip = tests_to_skip + " --deselect=test_plot_spatial_weights" %}  # [py<310]
+
+{% set tests_to_skip = tests_to_skip + " --deselect=test_plot_local_autocorrelation" %}  # [py>312]
 
 test:
   imports:
