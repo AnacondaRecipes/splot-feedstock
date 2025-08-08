@@ -15,8 +15,7 @@ source:
 
 build:
   number: 0
-  # skip py>311: no giddy
-  skip: True  # [py<38 or py>311]
+  skip: True  # [py<38]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
