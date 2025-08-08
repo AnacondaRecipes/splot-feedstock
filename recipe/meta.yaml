@@ -8,10 +8,6 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 6edcaee24cd417965c378c5bc87414d02806915950c138c1f6e40f1a1de5286b
-  patches:
-    - patches/0001-fix-bokeh-axis-visible-to-false.patch
-    - patches/0002-import-abc-from-collections_abc.patch  # [py>39]
-    - patches/0003-either-c-or-color-for-dynamic_lisa_vectors.patch
 
 build:
   number: 0
