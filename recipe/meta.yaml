@@ -16,7 +16,7 @@ source:
 build:
   number: 0
   # skip py>311: no giddy
-  skip: true  # [py<38 or py>311]
+  skip: True  # [py<38 or py>311]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -30,27 +30,19 @@ requirements:
     - wheel
   run:
     - python
-    - numpy
-    - geopandas >=0.4.0
-    - geopandas <1.0.0a0  # [py<310]
-    # matplotlib : register_cmap and get_cmap function were deprecated
-    # in Matplotlib 3.7 and removed two minor releases later (fails with
-    # 3.9.2, succeeds with 3.8.4)
-    - matplotlib-base <3.9.0a0
-    - seaborn
-    # libpysal: for py39 the version 4.5.1 will be used
-    #           while >=4.10 is available only for py>39
-    - libpysal
-    - libpysal >=4.10  # [py>39]
-    - mapclassify
-    - esda >=2.5.1
-    - spreg
+
+    - esda
+    - geopandas >=0.9.0
     - giddy
-    - descartes
-    # ipywidgets used in the source code
+    - libpysal
+    - mapclassify
+    - matplotlib >=3.3.3
+    - numpy
+    - packaging
+    - seaborn >=0.11.0
+    - spreg
+    # ipywidgets required in readme
     - ipywidgets
-  run_constrained:
-    - fiona <1.9  # [py<310]
 
 {% set tests_to_skip = "" %}
 # skip test_moran_scatterplot, because Guerry.shp is not a built in libpysal example
