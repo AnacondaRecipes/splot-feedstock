@@ -22,7 +22,6 @@ requirements:
     - wheel
   run:
     - python
-
     - esda
     - geopandas >=0.9.0
     - giddy
@@ -38,12 +37,13 @@ requirements:
 
 {% set tests_to_skip = "" %}
 # skip test_moran_scatterplot, because Guerry.shp is not a built in libpysal example
-{% set tests_to_skip = tests_to_skip + "test_moran_ or test_plot_moran" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=test_moran_" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=test_plot_moran" %}
 # skip tests for py39 because libpysal is available on an older version
 # and tests fail with TypeError: 'MultiPolygon' object is not iterable 
-{% set tests_to_skip = tests_to_skip + " or test_dynamic_lisa" %}  # [py<310]
-{% set tests_to_skip = tests_to_skip + " or test_plot_local_autocorrelation" %}  # [py<310]
-{% set tests_to_skip = tests_to_skip + " or test_plot_spatial_weights" %}  # [py<310]
+{% set tests_to_skip = tests_to_skip + " --deselect=test_dynamic_lisa" %}  # [py<310]
+{% set tests_to_skip = tests_to_skip + " --deselect=test_plot_local_autocorrelation" %}  # [py<310]
+{% set tests_to_skip = tests_to_skip + " --deselect=test_plot_spatial_weights" %}  # [py<310]
 
 test:
   imports:
@@ -61,9 +61,8 @@ test:
     - bokeh           # [py>=312]
   commands:
     - pip check
-    # check that pip gets the correct version 
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -vv --pyargs splot -k "not ({{ tests_to_skip }})"
+    - pytest {{ tests_to_skip }} -vv --pyargs splot
 
 about:
   home: https://pysal.org
