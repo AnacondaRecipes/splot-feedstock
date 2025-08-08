@@ -48,15 +48,15 @@ requirements:
 {% set tests_to_skip = tests_to_skip + " --deselect=test_plot_spatial_weights" %}  # [py<310]
 
 # NameError: name 'np' is not defined
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_scatterplot" %}  # [py>312]
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_global_scatterplot" %}  # [py>312]
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran" %}  # [py>312]
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_bv_scatterplot" %}  # [py>312]
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran_bv" %}  # [py>312]
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_scatterplot" %}  # [py>312]
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_local_autocorrelation" %}  # [py>312]
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_bv_scatterplot" %}  # [py>312]
-{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_facet" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_scatterplot" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_global_scatterplot" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_bv_scatterplot" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran_bv" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_scatterplot" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_local_autocorrelation" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_bv_scatterplot" %}
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_facet" %}
 
 test:
   imports:
