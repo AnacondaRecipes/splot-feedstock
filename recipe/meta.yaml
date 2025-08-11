@@ -11,7 +11,7 @@ source:
 
 build:
   number: 0
-  skip: True  # [py<38]
+  skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -25,7 +25,8 @@ requirements:
     - esda
     - geopandas >=0.9.0
     - giddy
-    - libpysal
+    # pinning not specified upstream, however without it we'll run into: ImportError: cannot import name 'inf' from 'scipy'
+    - libpysal >=4.10
     - mapclassify
     - matplotlib >=3.3.3
     - numpy
@@ -36,7 +37,7 @@ requirements:
     - ipywidgets
   run_constrained:
     - fiona <1.9  # [py<310]
-    # current version of geopandas package doesn't support shapely>=2
+    # current available version of geopandas package doesn't support shapely>=2
     - shapely <2  # [py<310]
 
 {% set tests_to_skip = "" %}
