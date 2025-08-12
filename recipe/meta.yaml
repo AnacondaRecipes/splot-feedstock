@@ -11,7 +11,9 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<38 or (osx and x86_64)]
+  # skipping osx x86 due to no available libpysal newer than 4.7 with py<310
+  # ImportError: cannot import name 'inf' from 'scipy' (issue was fixed libpysal in 4.7.0)
+  skip: true  # [py<38 or (osx and x86_64 and py<310)]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
