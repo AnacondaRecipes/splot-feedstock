@@ -11,7 +11,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<38]
+  skip: true  # [py<38 or (osx and x86_64)]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -26,9 +26,6 @@ requirements:
     - geopandas >=0.9.0
     - giddy
     - libpysal
-    # added min bound: ImportError: cannot import name 'inf' from 'scipy' (issue was
-    # fixed upstream from 4.7.0 and above)
-    - libpysal >=4.7  # [py>=310]
     - mapclassify
     - matplotlib >=3.3.3
     - numpy
@@ -41,9 +38,6 @@ requirements:
     - fiona <1.9  # [py<310]
     # current available version of geopandas package doesn't support shapely>=2
     - shapely <2  # [py<310]
-    # ImportError: cannot import name 'inf' from 'scipy'. cap scipy on osx as we only
-    # only have libpysal >4.7.0
-    - scipy <1.12  # [osx and x86_64 and py<310]
 
 {% set tests_to_skip = "" %}
 
