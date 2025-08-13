@@ -1,29 +1,22 @@
 {% set name = "splot" %}
-{% set version = "1.1.3" %}
+{% set version = "1.1.7" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/s/splot/splot-{{ version }}.tar.gz
-  sha256: 7be9557cd3c6c0374e07c2a149e1330318d22d6ecb420f70f1a0dbad9b3187fd
-  patches:
-    - patches/0001-fix-bokeh-axis-visible-to-false.patch
-    - patches/0002-import-abc-from-collections_abc.patch  # [py>39]
-    - patches/0003-either-c-or-color-for-dynamic_lisa_vectors.patch
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 6edcaee24cd417965c378c5bc87414d02806915950c138c1f6e40f1a1de5286b
 
 build:
-  number: 1
-  # skip s390x: no libgdal
-  # skip py>311: no giddy
-  skip: True  # [s390x or py>311]
+  number: 0
+  # skipping osx x86 due to no available libpysal newer than 4.7 with py<310
+  # ImportError: cannot import name 'inf' from 'scipy' (issue was fixed libpysal in 4.7.0)
+  skip: true  # [py<38 or (osx and x86_64 and py<310)]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
-  build:
-    - patch       # [not win]
-    - m2-patch    # [win]
   host:
     - python
     - pip
@@ -31,36 +24,33 @@ requirements:
     - wheel
   run:
     - python
-    - numpy
-    - geopandas >=0.4.0
-    - geopandas <1.0.0a0  # [py<310]
-    # matplotlib : register_cmap and get_cmap function were deprecated
-    # in Matplotlib 3.7 and removed two minor releases later (fails with
-    # 3.9.2, succeeds with 3.8.4)
-    - matplotlib-base <3.9.0a0
-    - seaborn
-    # libpysal: for py39 the version 4.5.1 will be used
-    #           while >=4.10 is available only for py>39
-    - libpysal
-    - libpysal >=4.10  # [py>39]
-    - mapclassify
-    - esda >=2.5.1
-    - spreg
+    - esda
+    - geopandas >=0.9.0
     - giddy
-    - descartes
-    # ipywidgets used in the source code
-    - ipywidgets
+    - libpysal
+    - mapclassify
+    - matplotlib-base >=3.3.3
+    - numpy
+    - packaging
+    - seaborn >=0.11.0
+    - spreg
   run_constrained:
     - fiona <1.9  # [py<310]
+    # current available version of geopandas package doesn't support shapely>=2
+    - shapely <2  # [py<310]
 
 {% set tests_to_skip = "" %}
-# skip test_moran_scatterplot, because Guerry.shp is not a built in libpysal example
-{% set tests_to_skip = tests_to_skip + "test_moran_ or test_plot_moran" %}
-# skip tests for py39 because libpysal is available on an older version
-# and tests fail with TypeError: 'MultiPolygon' object is not iterable 
-{% set tests_to_skip = tests_to_skip + " or test_dynamic_lisa" %}  # [py<310]
-{% set tests_to_skip = tests_to_skip + " or test_plot_local_autocorrelation" %}  # [py<310]
-{% set tests_to_skip = tests_to_skip + " or test_plot_spatial_weights" %}  # [py<310]
+
+# NameError: name 'np' is not defined (spreg)
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_scatterplot" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_global_scatterplot" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_bv_scatterplot" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_moran_bv" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_scatterplot" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_plot_local_autocorrelation" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_loc_bv_scatterplot" %}  # [py>312]
+{% set tests_to_skip = tests_to_skip + " --deselect=tests/test_viz_esda_mpl.py::test_moran_facet" %}  # [py>312]
 
 test:
   imports:
@@ -72,15 +62,13 @@ test:
   requires:
     - pip
     - pytest
-    - nose
     # bokeh: AttributeError: unexpected attribute 'plot_width'
     - bokeh <3.0.0a0  # [py<312]
     - bokeh           # [py>=312]
   commands:
     - pip check
-    # check that pip gets the correct version 
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -vv --pyargs splot -k "not ({{ tests_to_skip }})"
+    - pytest {{ tests_to_skip }} -vv --pyargs splot
 
 about:
   home: https://pysal.org
