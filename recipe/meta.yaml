@@ -29,13 +29,11 @@ requirements:
     - giddy
     - libpysal
     - mapclassify
-    - matplotlib >=3.3.3
+    - matplotlib-base >=3.3.3
     - numpy
     - packaging
     - seaborn >=0.11.0
     - spreg
-    # ipywidgets required in readme
-    - ipywidgets
   run_constrained:
     - fiona <1.9  # [py<310]
     # current available version of geopandas package doesn't support shapely>=2
@@ -64,7 +62,6 @@ test:
   requires:
     - pip
     - pytest
-    - nose
     # bokeh: AttributeError: unexpected attribute 'plot_width'
     - bokeh <3.0.0a0  # [py<312]
     - bokeh           # [py>=312]
